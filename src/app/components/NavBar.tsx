@@ -1,13 +1,35 @@
+import { UserButton } from "@clerk/nextjs"
+
+
 export default function NavBar(){
+     
+    const header = [
+        {
+            id:1,
+            name:'Home',
+            path:'#'
+        },
+        {
+            id:2,
+            name:'About',
+            path:''
+        },
+        {
+            id:3,
+            name:'Contact',
+            path:''
+        }
+
+    ]
     return(
-        <div className="flex fle">
-            <h1>Car Pool</h1>
-            <ul className="flex flex-wrap">
-                <li>Home</li>
-                <li>About</li>
-                <li>Help</li>
-                <li>Profile</li>
-            </ul>
+        <div className="p-5 w-full flex flex-wrap items-center bg-[#00796B]">
+            <div className="text-5xl basis-2/5">UniRide</div>
+            <div className="basis-3/5 flex justify-evenly">
+                {header.map((item)=>(
+                        <a key={item.id} href={item.path} className="text-2xl hover:text-[#00BCD4]">{item.name}</a>
+                ))}
+                <UserButton/>
+            </div>
         </div>
     )
 }
