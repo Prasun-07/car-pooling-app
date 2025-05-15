@@ -1,5 +1,7 @@
 export default function CarImage(){
     return(
-        <div></div>
+        <div className="w-full h-[40rem]">
+            Car Image
+        </div>
     )
 }
