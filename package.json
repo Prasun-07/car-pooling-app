@@ -12,9 +12,15 @@
     "@clerk/nextjs": "^6.19.2",
     "@react-three/drei": "^10.0.7",
     "@react-three/fiber": "^9.1.2",
+    "@tabler/icons-react": "^3.31.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.11.3",
+    "lottie-react": "^2.4.1",
+    "motion": "^12.11.3",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "tailwind-merge": "^3.3.0",
     "three": "^0.176.0"
   },
   "devDependencies": {

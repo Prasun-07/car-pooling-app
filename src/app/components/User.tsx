@@ -3,7 +3,7 @@ import AuthBased from "./AuthBased";
 
 export default function User(){
    return(
-        <div className="w-full h-[40rem] bg-green-600" >
+        <div className="w-full h-[40rem] bg-none" >
             <div className="p-7"><p className="text-5xl p-3 pl-0">Why do we use it?</p>
                 <p className="text-2xl">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
                 The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, 

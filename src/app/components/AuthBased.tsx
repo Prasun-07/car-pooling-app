@@ -1,19 +1,20 @@
-import { SignedIn, SignedOut, SignIn, SignInButton } from "@clerk/nextjs"
-import Page from "../sign-in/[[...sign-in]]/page"
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
+import Page from "../passenger/page";
+
 export default function AuthBased(){
     const router = useRouter();
     return(
         <div>
             <SignedIn>
                 <div className="w-full flex evenly">
-                    <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 
+                    <button  onClick={() => router.push('../driver')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 
                                             border-b-4 border-blue-700 hover:border-blue-500 rounded">
-                            Be A Driver
+                            Post A Ride
                     </button>
-                    <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 
+                    <button onClick={() => router.push('../passenger')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 
                                             border-b-4 border-blue-700 hover:border-blue-500 rounded">
-                            Be A Passenger
+                            Find A Ride
                     </button>
                 </div>
             </SignedIn>
@@ -22,7 +23,7 @@ export default function AuthBased(){
                     <button type="button" onClick={() => router.push('../sign-in/[[...sign-in]]/page')} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 
                                         border-b-4 border-blue-700 hover:border-blue-500 rounded">
                         Sign In
-                </button>
+                    </button>
                 </SignInButton>
             </SignedOut>
         </div>
