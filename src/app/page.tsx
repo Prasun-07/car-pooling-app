@@ -33,10 +33,8 @@ export default function Home() {
 
   return (
     <div>
-      
       <NavBar/>
       <Location/>
-      
       <div className="grid grid-cols-2">
         <User/>
         <CartoonBackground/>
