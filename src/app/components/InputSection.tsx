@@ -1,56 +1,77 @@
+// Updated InputSection.tsx with proper loading check
 'use client'
-import { PlaceAutocompleteResult } from "@googlemaps/google-maps-services-js";
-import { useEffect, useState } from "react";
-import { autocomplete } from "../../../lib/googleMaps";
 
-type InputSectionProps = {                                          //defines to typescript that type is a valid prop
-        type : string;
+import { useEffect, useRef } from "react";
+
+type InputSectionProps = {
+    type: string;
+    onPlaceSelected?: (place: any) => void;
 };
 
-type Suggestion = {
-  description: string;
-  place_id: string;
-};
-
-export default function InputSection({ type }: InputSectionProps){
-    const [suggestions, setSuggestions] = useState<PlaceAutocompleteResult[]>([]);
-    const [input, setInput] = useState("");
-     const [showSuggestions, setShowSuggestions] = useState(false);
+export default function InputSection({ type, onPlaceSelected }: InputSectionProps) {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const autocompleteRef = useRef<any>(null);
 
     useEffect(() => {
-        const fetchSuggestions = async () => {
-            const suggestions = await autocomplete(input);
-            setSuggestions(suggestions ?? []);
-        };
-        fetchSuggestions();
-    }, [input]);
+        const initAutocomplete = async () => {
+            // Wait for Google Maps to be fully loaded
+            if (!window.google || !window.google.maps || !inputRef.current) {
+                return;
+            }
 
-    const handleSuggestionClick = (suggestion: Suggestion) => {
-    setInput(suggestion.description);
-    setSuggestions([]);
-    setShowSuggestions(false);
-    };
+            try {
+                // For the newer API with importLibrary
+                if (google.maps.importLibrary) {
+                    const { Autocomplete } = await google.maps.importLibrary("places") as any;
+                    
+                    autocompleteRef.current = new Autocomplete(
+                        inputRef.current,
+                        {
+                            fields: ["formatted_address", "geometry", "name", "place_id"],
+                            types: ["geocode", "establishment"]
+                        }
+                    );
+                } else {
+                    // Fallback to the traditional method
+                    autocompleteRef.current = new google.maps.places.Autocomplete(
+                        inputRef.current,
+                        {
+                            fields: ["formatted_address", "geometry", "name", "place_id"],
+                            types: ["geocode", "establishment"]
+                        }
+                    );
+                }
+
+                autocompleteRef.current.addListener("place_changed", () => {
+                    const place = autocompleteRef.current.getPlace();
+                    if (place && onPlaceSelected) {
+                        onPlaceSelected(place);
+                    }
+                });
+            } catch (error) {
+                console.error("Error initializing autocomplete:", error);
+            }
+        };
+
+        // Add a small delay to ensure Google Maps is fully loaded
+        const timer = setTimeout(initAutocomplete, 100);
+
+        return () => {
+            clearTimeout(timer);
+            if (autocompleteRef.current && google.maps.event) {
+                google.maps.event.clearInstanceListeners(autocompleteRef.current);
+            }
+        };
+    }, [onPlaceSelected]);
 
     return (
         <div className="bg-amber-50 p-5 rounded-lg flex items-center gap-4 pt-5 mt-3">
-            <input type='text' 
-                   placeholder={type == "start" ? "Starting Location" : "Destination Location"} 
-                   className="bg-transparent w-full outline-none text-black" 
-                   onChange={(e) => setInput(e.target.value)} 
+            <input
+                ref={inputRef}
+                type='text'
+                placeholder={type === "start" ? "Starting Location" : "Destination Location"}
+                className="bg-transparent w-full outline-none text-black"
             />
-            {showSuggestions && suggestions.length > 0 && (
-                <ul className="absolute z-10 bg-white border border-gray-300 rounded-md shadow-lg mt-1 w-full max-h-60 overflow-y-auto">
-                {suggestions.map((s) => (
-                    <li
-                    key={s.place_id}
-                    className="p-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleSuggestionClick(s)}
-                    >
-                    {s.description}
-                    </li>
-                ))}
-                </ul>
-            )}
         </div>
     )
 }
