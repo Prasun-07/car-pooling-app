@@ -47,7 +47,7 @@ export default function InputSection({type} : InputSectionProps) {
 
 
     return (
-        <div className="bg-amber-50 p-5 rounded-lg flex items-center gap-4 pt-5 mt-3">
+        <div className="relative w-full bg-amber-50 p-5 rounded-lg flex items-center gap-4 pt-5 mt-3">
             <input
                 type='text'
                 placeholder={ type == "start" ? "Starting Location" : "Destination Location"}
@@ -58,11 +58,11 @@ export default function InputSection({type} : InputSectionProps) {
                 onBlur={() => setTimeout(() => setIsFocused(false), 100) }
             />
             {isFocused && predictions.length > 0 && (
-                <ul className="relative z-50 mt-1 w-full text-black bg-white shadow-lg border border-gray-300 rounded-md max-h-60 overflow-y-auto">
+                <ul className="absolute z-50 top-full mt-1 left-0 right-0 bg-white border border-gray-300 shadow-lg rounded-md max-h-60 overflow-y-auto text-black">
                     {predictions.map((prediction) => (
                         <li key={prediction.place_id} 
                             className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                            onClick={() => handleSelect(prediction.description)}>
+                            onMouseDown={() => handleSelect(prediction.description)}>
                             {prediction.description}
                         </li>
                     ))}
