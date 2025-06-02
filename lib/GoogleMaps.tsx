@@ -9,15 +9,37 @@ export const autocomplete = async (input : string) => {
 
     try {
         const response = await client.placeAutocomplete({
-        params : {
-            input,
-            key: process.env.GOOGLE_API_KEY!,
-        },
-    });
-    return response.data.predictions;
+            params : {
+                input,
+                key: process.env.GOOGLE_API_KEY!,
+            },
+        });
+        return response.data.predictions;
     } catch (e) {
         console.error("Google Maps API error:", e);
         return [];
     }
     
+}
+
+//fetches coordinates
+
+export const getCoordinates = async (placeId : string) => {
+    
+    if (!placeId) return null;
+
+    try {
+        const response = await client.placeDetails({
+            params : {
+                place_id: placeId,
+                key: process.env.GOOGLE_API_KEY!,
+            },
+        });
+        const location = response.data.result.geometry?.location;
+        return location ?? null;
+    } catch (error) {
+        console.error("Google Maps PlaceDetails error: ",error);
+        return null;
+    }
+
 }

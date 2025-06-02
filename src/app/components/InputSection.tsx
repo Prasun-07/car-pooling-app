@@ -11,11 +11,17 @@ type Prediction = {
   description: string;
 };
 
+type Coordinates = {
+  lat: number;
+  lng: number;
+} | null;
+
 export default function InputSection({type} : InputSectionProps) {
 
     const [predictions, setPredictions] = useState<Prediction[]>([]);
     const [input, setInput] = useState("");
     const [isFocused, setIsFocused] = useState(false);
+    const [coordinates, setCoordinates] = useState<Coordinates>(null);
     const debounceTimer = useRef<NodeJS.Timeout | null>(null);
     
     useEffect(() => {
@@ -40,11 +46,29 @@ export default function InputSection({type} : InputSectionProps) {
     }, 300);
     }, [input]);
 
-    const handleSelect = (description: string) => {
-        setInput(description);
-        setPredictions([]); // clear suggestions
-    };
 
+    const handleSelect = async (prediction: Prediction) => {
+        setInput(prediction.description);
+        setPredictions([]);
+
+        //fetch coordinates
+        try {
+        const res = await fetch('/api/getCoordinates', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ placeId: prediction.place_id }),
+        });
+        if (!res.ok) throw new Error('Failed to get coordinates');
+        const data = await res.json();
+        console.log(data);
+        setCoordinates(data); // Save coordinates for later use
+        } catch (error) {
+        console.error('Failed to fetch coordinates:', error);
+        setCoordinates(null);
+        }
+
+    };
+    
 
     return (
         <div className="relative w-full bg-amber-50 p-5 rounded-lg flex items-center gap-4 pt-5 mt-3">
@@ -62,7 +86,7 @@ export default function InputSection({type} : InputSectionProps) {
                     {predictions.map((prediction) => (
                         <li key={prediction.place_id} 
                             className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                            onMouseDown={() => handleSelect(prediction.description)}>
+                            onMouseDown={() => handleSelect(prediction)}>
                             {prediction.description}
                         </li>
                     ))}
