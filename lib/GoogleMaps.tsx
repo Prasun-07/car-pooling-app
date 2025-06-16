@@ -27,7 +27,7 @@ export const getPlaceCoordinates = async (placeId : string) => {
         const response = await client.placeDetails({
             params : {
                 place_id: placeId,
-                key: process.env.GOOGLE_API_KEY!,  // ✅ fixed here
+                key: process.env.GOOGLE_API_KEY!, 
             },
         });
         const location = response.data.result.geometry?.location;
