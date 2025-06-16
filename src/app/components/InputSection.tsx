@@ -1,69 +1,83 @@
-'use client';
+'use client'
 
-import { useEffect, useRef, useState } from 'react';
-import { useLocationContext } from '../context/LocationContext';
+import { useEffect, useRef, useState } from "react";
 
-export type InputSectionProps = { type: 'start' | 'end' };
-export type Prediction = { place_id: string; description: string };
+type InputSectionProps = {
+    type: string;
+};
 
-export default function InputSection({ type }: InputSectionProps) {
-  const [input, setInput] = useState('');
-  const [predictions, setPredictions] = useState<Prediction[]>([]);
-  const [isFocused, setIsFocused] = useState(false);
-  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
+type Prediction = {
+  place_id: string;
+  description: string;
+};
 
-  const { updateCoordinates } = useLocationContext();
+export default function InputSection({type} : InputSectionProps) {
+    const [predictions, setPredictions] = useState<Prediction[]>([]);
+    const [input, setInput] = useState("");
+    const [isFocused, setIsFocused] = useState(false);
+    const [coordinates, setCoordinates] = useState<{ lat: number, lng: number } | null>(null);
+    const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    if (!input.trim()) return setPredictions([]);
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    useEffect(() => {
+        if (!input.trim()) {
+            setPredictions([]);
+            return;
+        }
 
-    debounceTimer.current = setTimeout(async () => {
-      try {
-        const res = await fetch(`/api/autocomplete?input=${encodeURIComponent(input)}`);
-        const data = await res.json();
-        setPredictions(data);
-      } catch (error) {
-        console.error('Autocomplete error:', error);
-      }
-    }, 300);
-  }, [input]);
+        if (debounceTimer.current) clearTimeout(debounceTimer.current);
 
-  const handleSelect = async (prediction: Prediction) => {
-    setInput(prediction.description);
-    setPredictions([]);
-    try {
-      const res = await fetch('/api/getCoordinates', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ placeId: prediction.place_id }),
-      });
-      const data = await res.json();
-      updateCoordinates(type, data);
-    } catch (error) {
-      console.error('Get coordinates error:', error);
-    }
-  };
+        debounceTimer.current = setTimeout(async () => {
+            try {
+                const res = await fetch(`/api/autocomplete?input=${encodeURIComponent(input)}`);
+                if (!res.ok) throw new Error('API Error');
+                const data = await res.json();
+                setPredictions(data);
+            } catch (err) {
+                console.error('Autocomplete fetch failed:', err);
+                setPredictions([]);
+            }
+        }, 300);
+    }, [input]);
 
-  return (
-    <div className="relative text-black bg-white p-4 rounded shadow w-full mb-2">
-      <input
-        className="w-full border p-2"
-        placeholder={type === 'start' ? 'Start location' : 'Destination'}
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setTimeout(() => setIsFocused(false), 100)}
-      />
-      {isFocused && predictions.length > 0 && (
-        <ul className="absolute z-10 w-full bg-white border max-h-60 overflow-y-auto">
-          {predictions.map((p) => (
-            <li key={p.place_id} className="p-2 hover:bg-gray-100" onMouseDown={() => handleSelect(p)}>
-              {p.description}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+    const handleSelect = async (description: string, place_id: string) => {
+        setInput(description);
+        setPredictions([]);
+
+        try {
+            const res = await fetch(`/api/coordinates?place_id=${place_id}`);
+            if (!res.ok) throw new Error('Coordinates fetch failed');
+            const data = await res.json();
+            setCoordinates(data);
+            console.log("Selected Coordinates:", data);
+        } catch (err) {
+            console.error("Failed to fetch coordinates:", err);
+        }
+    };
+
+    return (
+        <div className="relative w-full bg-amber-50 p-5 rounded-lg flex items-center gap-4 pt-5 mt-3">
+            <input
+                type="text"
+                placeholder={type === "start" ? "Starting Location" : "Destination Location"}
+                className="bg-transparent w-full outline-none text-black"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setTimeout(() => setIsFocused(false), 100)}
+            />
+            {isFocused && predictions.length > 0 && (
+                <ul className="absolute z-50 top-full mt-1 left-0 right-0 bg-white border border-gray-300 shadow-lg rounded-md max-h-60 overflow-y-auto text-black">
+                    {predictions.map((prediction) => (
+                        <li
+                            key={prediction.place_id}
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                            onMouseDown={() => handleSelect(prediction.description, prediction.place_id)}
+                        >
+                            {prediction.description}
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
 }
