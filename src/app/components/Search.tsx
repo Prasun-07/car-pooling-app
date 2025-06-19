@@ -1,13 +1,15 @@
 'use client';
 
 import { useState } from "react";
-import Date from "./Date";
+import DateInput from "./DateInput";
 import InputSection from "./InputSection";
 import Pay from "./Pay";
-import Time from "./Time";
+import TimeInput from "./TimeInput";
 import { supabase } from "../../../lib/supabaseClient";
 
 export default function Search() {
+  const [startCoords, setStartCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [endCoords, setEndCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [date, setDate] = useState("");
@@ -17,18 +19,22 @@ export default function Search() {
   const [popup, setPopup] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const handlePostRide = async () => {
-    if (!start || !end || !date || !time || !pay) {
+    if (!start || !end || !date || !time || !pay || !startCoords || !endCoords) {
       setPopup({ type: "error", message: "Please fill in all fields." });
       return;
     }
 
-    const { error } = await supabase.from("Car Pooling Driver's Data").insert([
+    const { error } = await supabase.from("car_pooling_driver_data").insert([
       {
         start,
         end,
         date,
         time,
         pay: parseFloat(pay),
+        start_lat: startCoords.lat,
+        start_lng: startCoords.lng,
+        end_lat: endCoords.lat,
+        end_lng: endCoords.lng,
       },
     ]);
 
@@ -38,6 +44,7 @@ export default function Search() {
     } else {
       setPopup({ type: "success", message: "Ride posted successfully!" });
       setStart(""); setEnd(""); setDate(""); setTime(""); setPay("");
+      setStartCoords(null); setEndCoords(null);
     }
 
     setTimeout(() => setPopup(null), 3000);
@@ -45,10 +52,10 @@ export default function Search() {
 
   return (
     <div className="relative">
-      <InputSection type="start" input={start} setInput={setStart} />
-      <InputSection type="end" input={end} setInput={setEnd} />
-      <Time value={time} setValue={setTime} />
-      <Date value={date} setValue={setDate} />
+      <InputSection type="start" input={start} setInput={setStart} setLatLng={setStartCoords} />
+      <InputSection type="end" input={end} setInput={setEnd} setLatLng={setEndCoords} />
+      <TimeInput value={time} setValue={setTime} />
+      <DateInput value={date} setValue={setDate} />
       <Pay value={pay} setValue={setPay} />
       <button
         onClick={handlePostRide}

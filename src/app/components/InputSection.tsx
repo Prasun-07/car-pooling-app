@@ -6,6 +6,7 @@ type InputSectionProps = {
   type: string;
   input: string;
   setInput: (val: string) => void;
+  setLatLng?: (val: { lat: number; lng: number }) => void;
 };
 
 type Prediction = {
@@ -13,7 +14,7 @@ type Prediction = {
   description: string;
 };
 
-export default function InputSection({ type, input, setInput }: InputSectionProps) {
+export default function InputSection({ type, input, setInput, setLatLng }: InputSectionProps){
   const [predictions, setPredictions] = useState<Prediction[]>([]);
   const [isFocused, setIsFocused] = useState(false);
   const [coordinates, setCoordinates] = useState<{ lat: number, lng: number } | null>(null);
@@ -49,6 +50,7 @@ export default function InputSection({ type, input, setInput }: InputSectionProp
       if (!res.ok) throw new Error('Coordinates fetch failed');
       const data = await res.json();
       setCoordinates(data);
+      if (setLatLng) setLatLng(data);
       console.log("Selected Coordinates:", data);
     } catch (err) {
       console.error("Failed to fetch coordinates:", err);
