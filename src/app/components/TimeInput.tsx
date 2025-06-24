@@ -4,7 +4,7 @@ type TimeProps = {
   setValue: (value: string) => void;
 };
 
-export default function Time({ value, setValue }: TimeProps) {
+export default function TimeInput({ value, setValue }: TimeProps) {
     return(
         <div>
             <label className="block text-sm text-gray-700 mb-1">Starting Time</label>

@@ -6,6 +6,7 @@ import InputSection from "./InputSection";
 import Pay from "./Pay";
 import TimeInput from "./TimeInput";
 import { supabase } from "../../../lib/supabaseClient";
+import Contact from "./Contact";
 
 export default function Search() {
   const [startCoords, setStartCoords] = useState<{ lat: number; lng: number } | null>(null);
@@ -15,11 +16,12 @@ export default function Search() {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [pay, setPay] = useState("");
+  const [contact, setContact] = useState("");
 
   const [popup, setPopup] = useState<{ type: "success" | "error"; message: string } | null>(null);
 
   const handlePostRide = async () => {
-    if (!start || !end || !date || !time || !pay || !startCoords || !endCoords) {
+    if (!start || !end || !date || !time || !pay || !contact || !startCoords || !endCoords) {
       setPopup({ type: "error", message: "Please fill in all fields." });
       return;
     }
@@ -35,6 +37,7 @@ export default function Search() {
         start_lng: startCoords.lng,
         end_lat: endCoords.lat,
         end_lng: endCoords.lng,
+        contact,
       },
     ]);
 
@@ -44,7 +47,7 @@ export default function Search() {
     } else {
       setPopup({ type: "success", message: "Ride posted successfully!" });
       setStart(""); setEnd(""); setDate(""); setTime(""); setPay("");
-      setStartCoords(null); setEndCoords(null);
+      setStartCoords(null); setEndCoords(null); setContact("");
     }
 
     setTimeout(() => setPopup(null), 3000);
@@ -56,6 +59,7 @@ export default function Search() {
       <InputSection type="end" input={end} setInput={setEnd} setLatLng={setEndCoords} />
       <TimeInput value={time} setValue={setTime} />
       <DateInput value={date} setValue={setDate} />
+      <Contact value={contact} setValue={setContact} />
       <Pay value={pay} setValue={setPay} />
       <button
         onClick={handlePostRide}
