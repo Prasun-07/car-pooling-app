@@ -58,22 +58,26 @@ export default function InputSection({ type, input, setInput, setLatLng }: Input
   };
 
   return (
-    <div className="relative w-full bg-amber-50 p-5 rounded-lg flex items-center gap-4 pt-5 mt-3">
+    <div className="relative w-full mt-4">
+      <label className="block text-sm font-medium text-[#3e3e3e] mb-2">
+        {type === "start" ? "Starting Location" : "Destination Location"}
+      </label>
       <input
         type="text"
-        placeholder={type === "start" ? "Starting Location" : "Destination Location"}
-        className="bg-transparent w-full outline-none text-black"
+        placeholder={type === "start" ? "e.g. Bagdogra Airport" : "e.g. City Center Mall"}
+        className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-black placeholder-gray-500 
+                   focus:outline-none focus:ring-2 focus:ring-[#7b3f2c] shadow-sm transition-all duration-200"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setTimeout(() => setIsFocused(false), 100)}
       />
       {isFocused && predictions.length > 0 && (
-        <ul className="absolute z-50 top-full mt-1 left-0 right-0 bg-white border border-gray-300 shadow-lg rounded-md max-h-60 overflow-y-auto text-black">
+        <ul className="absolute z-50 top-full mt-2 left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
           {predictions.map((prediction) => (
             <li
               key={prediction.place_id}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              className="px-4 py-2 text-sm text-black cursor-pointer hover:bg-[#f9e3d8] transition-colors rounded-md"
               onMouseDown={() => handleSelect(prediction.description, prediction.place_id)}
             >
               {prediction.description}

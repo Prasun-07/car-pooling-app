@@ -54,7 +54,7 @@ export default function Search() {
   };
 
   return (
-    <div className="relative">
+    <div className="max-w-2xl mx-auto p-6 bg-white bg-opacity-90 rounded-3xl shadow-xl space-y-6">
       <InputSection type="start" input={start} setInput={setStart} setLatLng={setStartCoords} />
       <InputSection type="end" input={end} setInput={setEnd} setLatLng={setEndCoords} />
       <TimeInput value={time} setValue={setTime} />
@@ -63,14 +63,15 @@ export default function Search() {
       <Pay value={pay} setValue={setPay} />
       <button
         onClick={handlePostRide}
-        className="w-full mt-5 bg-white text-black rounded-lg p-3"
+        className="w-full mt-5 bg-[#7b3f2c] hover:bg-[#9e533c] text-white text-lg 
+                  font-semibold px-6 py-3 rounded-xl shadow-md transition-all duration-300"
       >
         Post Ride
       </button>
 
       {popup && (
         <div
-          className={`absolute top-10 left-1/2 -translate-x-1/2 px-6 py-4 rounded-lg shadow-md z-50 border
+          className={`fixed top-5 left-1/2 -translate-x-1/2 px-6 py-4 rounded-xl shadow-lg z-50 border transition-all duration-300
           ${popup.type === "success"
               ? "bg-green-100 border-green-400 text-green-700"
               : "bg-red-100 border-red-400 text-red-700"

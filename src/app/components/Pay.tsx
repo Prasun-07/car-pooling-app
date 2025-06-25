@@ -4,14 +4,15 @@ type PayProps = {
 };
 export default function Pay({ value, setValue }: PayProps) {
     return(
-        <div>
-            <label className="block text-sm text-gray-700 mb-1">Rs.</label>
+        <div className="space-y-2">
+            <label className="block text-base font-medium text-[#3e3e3e]">Rs.</label>
             <input
             type="text"
             placeholder="Amount per passenger has to pay"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-full p-2 rounded border border-gray-300 text-black bg-white"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white 
+                    text-black text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#7b3f2c] transition-all duration-200"
             />
         </div>
     )
