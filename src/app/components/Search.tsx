@@ -7,6 +7,7 @@ import Pay from "./Pay";
 import TimeInput from "./TimeInput";
 import { supabase } from "../../../lib/supabaseClient";
 import Contact from "./Contact";
+import Footer from "./Footer";
 
 export default function Search() {
   const [startCoords, setStartCoords] = useState<{ lat: number; lng: number } | null>(null);
@@ -54,40 +55,48 @@ export default function Search() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white bg-opacity-90 rounded-3xl shadow-xl space-y-6">
-      <InputSection type="start" input={start} setInput={setStart} setLatLng={setStartCoords} />
-      <InputSection type="end" input={end} setInput={setEnd} setLatLng={setEndCoords} />
-      <TimeInput value={time} setValue={setTime} />
-      <DateInput value={date} setValue={setDate} />
-      <Contact value={contact} setValue={setContact} />
-      <Pay value={pay} setValue={setPay} />
-      <button
-        onClick={handlePostRide}
-        className="w-full mt-5 bg-[#7b3f2c] hover:bg-[#9e533c] text-white text-lg 
-                  font-semibold px-6 py-3 rounded-xl shadow-md transition-all duration-300"
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF8F0] via-[#FAECEB] to-[#F6F1ED] flex flex-col items-center justify-start p-4 ">
+      <div
+        className="w-full max-w-2xl bg-white bg-opacity-90 rounded-3xl shadow-2xl p-6 mt-10 animate-fade-in-up"
       >
-        Post Ride
-      </button>
+        <InputSection type="start" input={start} setInput={setStart} setLatLng={setStartCoords} />
+        <InputSection type="end" input={end} setInput={setEnd} setLatLng={setEndCoords} />
+        <TimeInput value={time} setValue={setTime} />
+        <DateInput value={date} setValue={setDate} />
+        <Contact value={contact} setValue={setContact} />
+        <Pay value={pay} setValue={setPay} />
 
-      {popup && (
-        <div
-          className={`fixed top-5 left-1/2 -translate-x-1/2 px-6 py-4 rounded-xl shadow-lg z-50 border transition-all duration-300
-          ${popup.type === "success"
-              ? "bg-green-100 border-green-400 text-green-700"
-              : "bg-red-100 border-red-400 text-red-700"
-          }`}
+        <button
+          onClick={handlePostRide}
+          className="w-full mt-5 bg-[#7b3f2c] hover:bg-[#9e533c] text-white text-lg 
+          font-semibold px-6 py-3 rounded-xl shadow-md transition-all duration-300"
         >
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-sm font-semibold">{popup.message}</p>
-            <button
-              className="font-bold"
-              onClick={() => setPopup(null)}
-            >
-              ✕
-            </button>
+          Post Ride
+        </button>
+
+        {popup && (
+          <div
+            className={`fixed top-5 left-1/2 -translate-x-1/2 px-6 py-4 rounded-xl shadow-lg z-50 border transition-all duration-300
+            ${popup.type === "success"
+                ? "bg-green-100 border-green-400 text-green-700"
+                : "bg-red-100 border-red-400 text-red-700"
+              }`}
+          >
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-semibold">{popup.message}</p>
+              <button
+                className="font-bold"
+                onClick={() => setPopup(null)}
+              >
+                ✕
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+      <div className="mt-20 border-t border-gray-300 w-full max-w-5xl pt-10">
+        <Footer />
+      </div>
     </div>
   );
 }
