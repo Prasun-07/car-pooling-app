@@ -17,7 +17,6 @@ export default function Footer() {
     <footer className="relative bg-gradient-to-br from-[#f9f0e8] to-[#fff9f5] text-gray-800 pt-16 px-6 md:px-20 pb-6 transition-all duration-300">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start w-full gap-10">
 
-        {/* About */}
         <div className="basis-1/4">
           <h2 className="text-xl font-bold text-[#9e6a4f] mb-4">About the Project</h2>
           <p className="text-sm leading-relaxed text-gray-700">
@@ -26,7 +25,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* Features */}
         <div className="basis-1/4">
           <h2 className="text-xl font-bold text-[#9e6a4f] mb-4">Features</h2>
           <ul className="space-y-2 text-sm text-gray-700">
@@ -37,7 +35,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Stay Updated */}
         <div className="basis-1/4">
           <h2 className="text-xl font-bold text-[#9e6a4f] mb-4">Stay Updated</h2>
           <p className="text-sm text-gray-700 mb-3">Subscribe to our newsletter</p>
@@ -56,7 +53,6 @@ export default function Footer() {
           </form>
         </div>
 
-        {/* Contact */}
         <div className="basis-1/4">
           <h2 className="text-xl font-bold text-[#9e6a4f] mb-4">Contact</h2>
           <p className="text-sm mb-1">
@@ -73,12 +69,10 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Divider and copyright */}
       <div className="border-t border-[#e3d5c9] mt-10 pt-4 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} UniRide. All rights reserved.
       </div>
 
-      {/* Scroll to Top Button */}
       {showScroll && (
         <button
           onClick={scrollToTop}

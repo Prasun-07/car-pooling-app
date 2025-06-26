@@ -55,10 +55,8 @@ export default function Search() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF8F0] via-[#FAECEB] to-[#F6F1ED] flex flex-col items-center justify-start p-4 ">
-      <div
-        className="w-full max-w-2xl bg-white bg-opacity-90 rounded-3xl shadow-2xl p-6 mt-10 animate-fade-in-up"
-      >
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF8F0] via-[#FAECEB] to-[#F6F1ED] flex flex-col items-center justify-start p-4">
+      <div className="w-full max-w-2xl bg-white bg-opacity-90 rounded-3xl shadow-2xl p-6 mt-10 animate-fade-in-up">
         <InputSection type="start" input={start} setInput={setStart} setLatLng={setStartCoords} />
         <InputSection type="end" input={end} setInput={setEnd} setLatLng={setEndCoords} />
         <TimeInput value={time} setValue={setTime} />
@@ -94,7 +92,7 @@ export default function Search() {
           </div>
         )}
       </div>
-      <div className="mt-20 border-t border-gray-300 w-full max-w-5xl pt-10">
+      <div className="mt-20 w-screen">
         <Footer />
       </div>
     </div>

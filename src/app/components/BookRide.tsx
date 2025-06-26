@@ -18,7 +18,7 @@ export default function BookRide() {
 
   const haversineDistance = (coord1: Coords, coord2: Coords) => {
     const toRad = (x: number) => (x * Math.PI) / 180;
-    const R = 6371; // Earth radius in km
+    const R = 6371;
 
     const dLat = toRad(coord2.lat - coord1.lat);
     const dLng = toRad(coord2.lng - coord1.lng);
@@ -30,7 +30,7 @@ export default function BookRide() {
         Math.sin(dLng / 2) ** 2;
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c * 1000; // meters
+    return R * c * 1000;
   };
 
   const handleSearchNearby = async () => {
@@ -39,7 +39,6 @@ export default function BookRide() {
       return;
     }
 
-    console.log('🔍 Start Coord Search Triggered:', startCoords);
     setLoading(true);
 
     const { data, error } = await supabase
@@ -47,13 +46,11 @@ export default function BookRide() {
       .select('*');
 
     if (error) {
-      console.error('❌ Supabase fetch error:', error.message);
+      console.error('Supabase fetch error:', error.message);
       alert('Failed to fetch rides.');
       setLoading(false);
       return;
     }
-
-    console.log('✅ All rides from DB:', data);
 
     const filtered = data.filter((ride) => {
       const rideStartCoords = {
@@ -64,37 +61,42 @@ export default function BookRide() {
       return distance <= 500;
     });
 
-    console.log('✅ Filtered Rides:', filtered);
     setResults(filtered);
     setLoading(false);
   };
 
   return (
-    <div className="p-4">
-      <InputSection
-        type="start"
-        input={start}
-        setInput={setStart}
-        setLatLng={setStartCoords}
-      />
+    <div className="p-4 max-w-3xl mx-auto">
+      <div className="bg-[#fff] rounded-3xl shadow-xl p-6">
+        <InputSection
+          type="start"
+          input={start}
+          setInput={setStart}
+          setLatLng={setStartCoords}
+        />
 
-      <button
-        onClick={handleSearchNearby}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-      >
-        Search Ride
-      </button>
+        <button
+          onClick={handleSearchNearby}
+          className="mt-4 px-6 py-3 bg-[#7b3f2c] hover:bg-[#9e533c] text-white rounded-xl text-lg font-semibold shadow-md transition duration-300 w-full"
+        >
+          Search Ride
+        </button>
+      </div>
 
       {loading ? (
-        <p className="text-blue-500 text-center mt-4">Searching nearby rides...</p>
+        <p className="text-[#7b3f2c] text-center mt-6 animate-pulse font-medium">
+          Searching nearby rides...
+        </p>
       ) : results.length > 0 ? (
-        <div className="mt-6 space-y-4">
+        <div className="mt-8 space-y-6 animate-fade-in-up">
           {results.map((ride) => (
             <RideCard key={ride.id} ride={ride} />
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 text-center mt-4">No nearby rides found.</p>
+        <p className="text-gray-500 text-center mt-6 italic">
+          No nearby rides found.
+        </p>
       )}
     </div>
   );
