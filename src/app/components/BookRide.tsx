@@ -66,8 +66,8 @@ export default function BookRide() {
   };
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <div className="bg-[#fff] rounded-3xl shadow-xl p-6">
+    <div className="p-6 md:p-10 max-w-3xl mx-auto">
+      <div className="bg-white bg-opacity-95 rounded-3xl shadow-2xl p-8">
         <InputSection
           type="start"
           input={start}
@@ -77,24 +77,27 @@ export default function BookRide() {
 
         <button
           onClick={handleSearchNearby}
-          className="mt-4 px-6 py-3 bg-[#7b3f2c] hover:bg-[#9e533c] text-white rounded-xl text-lg font-semibold shadow-md transition duration-300 w-full"
+          className="mt-6 w-full px-8 py-4 bg-gradient-to-r from-[#b4693e] to-[#9e6a4f] 
+                  text-white text-lg md:text-xl font-semibold rounded-xl 
+                    shadow-[0_4px_0_0_#7b3f2c] hover:shadow-[0_2px_0_0_#7b3f2c] 
+                    active:translate-y-[4px] active:shadow-none transition-all duration-150 ease-in-out"
         >
           Search Ride
         </button>
       </div>
 
       {loading ? (
-        <p className="text-[#7b3f2c] text-center mt-6 animate-pulse font-medium">
+        <p className="text-[#7b3f2c] text-center mt-10 text-lg font-medium animate-pulse">
           Searching nearby rides...
         </p>
       ) : results.length > 0 ? (
-        <div className="mt-8 space-y-6 animate-fade-in-up">
+        <div className="mt-10 space-y-6 animate-fade-in-up">
           {results.map((ride) => (
             <RideCard key={ride.id} ride={ride} />
           ))}
         </div>
       ) : (
-        <p className="text-gray-500 text-center mt-6 italic">
+        <p className="text-gray-500 text-center mt-10 text-md italic">
           No nearby rides found.
         </p>
       )}

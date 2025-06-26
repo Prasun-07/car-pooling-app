@@ -1,4 +1,3 @@
-
 type TimeProps = {
   value: string;
   setValue: (value: string) => void;

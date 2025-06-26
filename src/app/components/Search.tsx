@@ -56,7 +56,7 @@ export default function Search() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFF8F0] via-[#FAECEB] to-[#F6F1ED] flex flex-col items-center justify-start p-4">
-      <div className="w-full max-w-2xl bg-white bg-opacity-90 rounded-3xl shadow-2xl p-6 mt-10 animate-fade-in-up">
+      <div className="w-full max-w-2xl bg-white bg-opacity-90 rounded-3xl shadow-2xl p-6 mt-5 animate-fade-in-up">
         <InputSection type="start" input={start} setInput={setStart} setLatLng={setStartCoords} />
         <InputSection type="end" input={end} setInput={setEnd} setLatLng={setEndCoords} />
         <TimeInput value={time} setValue={setTime} />
@@ -66,8 +66,10 @@ export default function Search() {
 
         <button
           onClick={handlePostRide}
-          className="w-full mt-5 bg-[#7b3f2c] hover:bg-[#9e533c] text-white text-lg 
-          font-semibold px-6 py-3 rounded-xl shadow-md transition-all duration-300"
+          className="mt-6 w-full px-8 py-4 bg-gradient-to-r from-[#b4693e] to-[#9e6a4f] 
+                     text-white text-lg md:text-xl font-semibold rounded-xl 
+                     shadow-[0_4px_0_0_#7b3f2c] hover:shadow-[0_2px_0_0_#7b3f2c] 
+                     active:translate-y-[4px] active:shadow-none transition-all duration-150 ease-in-out"
         >
           Post Ride
         </button>

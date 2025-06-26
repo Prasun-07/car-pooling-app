@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import BookRide from "../components/BookRide";
 import NavBar from "../components/NavBar";
@@ -10,22 +10,25 @@ export default function Page() {
       <NavBar />
 
       <main className="flex-grow">
-        <div className="max-w-5xl mx-auto px-6 py-16">
-          <h1 className="text-5xl font-bold mt-10 mb-6 text-center leading-tight animate-fade-in-up">
-            Book Your Ride
+        <div className="max-w-5xl mx-auto px-6 pt-30 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-[#7b3f2c] leading-tight">
+            Book <span className="italic font-semibold text-[#b4693e]">a Ride</span>
           </h1>
-
-          <p className="text-lg text-[#7b3f2c] mb-10 text-center animate-fade-in-up delay-100">
-            Find rides near your location and connect with trusted drivers.
+          <p className="mt-3 text-lg md:text-xl text-gray-700">
+            Discover convenient, affordable travel options by booking rides with drivers going your way.
           </p>
+        </div>
 
-          <div className="bg-white bg-opacity-90 rounded-3xl shadow-xl p-8 animate-fade-in-up delay-200">
-            <BookRide />
+        <div className="mt-10 flex justify-center">
+          <div className="w-full max-w-3xl px-4">
+            <div className="bg-white bg-opacity-90 rounded-3xl shadow-2xl p-8 animate-fade-in-up">
+              <BookRide />
+            </div>
           </div>
         </div>
       </main>
 
-      <div className="w-full">
+      <div className="w-full mt-16">
         <Footer />
       </div>
     </div>

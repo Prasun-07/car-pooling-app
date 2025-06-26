@@ -16,7 +16,6 @@ export default function Footer() {
   return (
     <footer className="relative bg-gradient-to-br from-[#f9f0e8] to-[#fff9f5] text-gray-800 pt-16 px-6 md:px-20 pb-6 transition-all duration-300">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start w-full gap-10">
-
         <div className="basis-1/4">
           <h2 className="text-xl font-bold text-[#9e6a4f] mb-4">About the Project</h2>
           <p className="text-sm leading-relaxed text-gray-700">
