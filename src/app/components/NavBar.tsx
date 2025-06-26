@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { UserButton } from "@clerk/nextjs";
 import { FaHome, FaInfoCircle, FaPhoneAlt } from "react-icons/fa";
+import Link from 'next/link';
 
 export default function NavBar() {
   const [dateTime, setDateTime] = useState<Date | null>(null);
@@ -30,14 +31,16 @@ export default function NavBar() {
         <div className="text-3xl font-bold text-[#7b3f2c] tracking-wide">UniRide</div>
 
         <div className="hidden md:flex gap-6 items-center">
-          <a
-            href="#"
+          
+          <Link
+            href="/"
             className="relative flex items-center gap-2 px-3 py-1 rounded-lg text-[#2f1e1b] hover:text-[#9e533c] hover:bg-[#fbeee6]
                        transition-all duration-300 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0
                        hover:after:w-full after:h-[2px] after:bg-[#9e533c] after:transition-all after:duration-300"
           >
             <FaHome /> Home
-          </a>
+          </Link>
+          
           <a
             href="#"
             className="relative flex items-center gap-2 px-3 py-1 rounded-lg text-[#2f1e1b] hover:text-[#9e533c] hover:bg-[#fbeee6]
