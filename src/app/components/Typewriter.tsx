@@ -36,10 +36,10 @@ export default function Typewriter() {
   }, [text, isDeleting, index]);
 
   return (
-    <h3 className="text-2xl md:text-3xl font-bold tracking-wide text-[#7b3f2c] mt-5">
-      <span className="px-2 py-1 bg-[#fff8f0] rounded-lg border border-[#faeceb] shadow-sm text-[#b4693e]">
-        <span className="border-r-2 border-[#b4693e] pr-1 animate-blink">{text}</span>
-      </span>
+    <h3 className="text-2xl md:text-3xl font-bold tracking-wide text-[#7b3f2c] mt-12 text-center transition-opacity duration-1000 opacity-100">
+        <span className="px-2 py-1 bg-[#fff8f0] rounded-lg border border-[#faeceb] shadow-sm text-[#b4693e]">
+            <span className="border-r-2 border-[#b4693e] pr-1 animate-blink">{text}</span>
+        </span>
     </h3>
   );
 }
