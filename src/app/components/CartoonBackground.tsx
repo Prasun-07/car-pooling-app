@@ -1,7 +1,7 @@
 'use client';
 
 import Lottie from 'lottie-react';
-import cityAnimation from '../../../public/animations/Animation - 1747294818565 (1).json';
+import cityAnimation from "../../assets/animations/Animation - 1747294818565 (1).json"
 
 export default function UrbanCityBackground() {
   return (
