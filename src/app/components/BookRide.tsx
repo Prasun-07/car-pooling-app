@@ -10,10 +10,24 @@ type Coords = {
   lng: number;
 };
 
+type Ride = {
+  id: string;
+  start: string;
+  end: string;
+  date: string;
+  time: string;
+  pay: number;
+  contact: string;
+  start_lat: number;
+  start_lng: number;
+  end_lat: number;
+  end_lng: number;
+};
+
 export default function BookRide() {
   const [start, setStart] = useState('');
   const [startCoords, setStartCoords] = useState<Coords | null>(null);
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<Ride[]>([]);
   const [loading, setLoading] = useState(false);
 
   const haversineDistance = (coord1: Coords, coord2: Coords) => {

@@ -20,6 +20,7 @@ export default function InputSection({ type, input, setInput, setLatLng }: Input
   const [coordinates, setCoordinates] = useState<{ lat: number, lng: number } | null>(null);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
+  console.log(coordinates);
   useEffect(() => {
     if (!input.trim()) {
       setPredictions([]);
