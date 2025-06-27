@@ -1,6 +1,8 @@
 'use client';
 
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+
+const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 import cityAnimation from "../../assets/animations/Animation - 1747294818565 (1).json"
 
 export default function UrbanCityBackground() {
