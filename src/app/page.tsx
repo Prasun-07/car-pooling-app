@@ -1,11 +1,9 @@
 import NavBar from "./components/NavBar";
 import Location from "./components/Location";
-import CarImage from "./components/CarImage";
 import User from "./components/User";
 import Footer from "./components/Footer";
 import WorkFlow from "./components/WorkFlow";
 import CartoonBackground from "./components/CartoonBackground";
-
 
 export default function Home() {
   const timelineData = [

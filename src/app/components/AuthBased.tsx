@@ -1,6 +1,5 @@
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
-import Page from "../passenger/page";
 
 export default function AuthBased(){
     const router = useRouter();
